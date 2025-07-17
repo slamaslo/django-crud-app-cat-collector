@@ -25,13 +25,28 @@
           />
         </a>
       </div>
-      <nav>
-        <ul>
-          <li><a href={% url 'cat_index' %}>All Cats</a></li>
+    <nav>
+      <ul>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'cat_index' %}">All Cats</a></li>
+          <li><a href="{% url 'toy_index' %}">All Toys</a></li>
           <li><a href="{% url 'cat_create' %}">Add a Cat</a></li>
-          <li><a href={% url 'about' %}>About</a></li>
-        </ul>
-      </nav>
+          <li><a href="{% url 'toy_create' %}">Add a Toy</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li>
+            <form id="logout-form" method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit">Log out</button>
+            </form>
+          </li>
+        {% else %}
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'home' %}">Login</a></li>
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+
+        {% endif %}
+      </ul>
+    </nav>
     </header>
     <main>{% block content %} {% endblock %}</main>
   </body>
